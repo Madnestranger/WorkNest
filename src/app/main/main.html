@@ -1,0 +1,53 @@
+<div class="container">
+  <div class="error-message-box" ng-if="main.postsConfig.showErrorMessage">
+    DOWNLOADING ERROR, PLEASE TRY AGAIN
+  </div>
+  <h2>Reddit Search</h2>
+  <table class="table table-bordered table-hover">
+    <tr>
+      <th>Current page</th>
+      <td>{{main.postsConfig.currentPage}}</td>
+    </tr>
+    <tr>
+      <th>Total downloaded pages</th>
+      <td>{{main.postsConfig.totalPagesDownloaded}}</td>
+    </tr>
+  </table>
+  <div class="header">
+    <form action="" ng-submit="main.loadImages($event)">
+      <input type="text"
+             placeholder="Type Topic..."
+             class="form-control"
+             ng-change="main.resetConfig()"
+             ng-model="main.searchTerm">
+    </form>
+    <button class="btn btn-default" ng-click="main.loadImages()">
+      <i class="glyphicon glyphicon-search"></i>
+    </button>
+  </div>
+  <div class="items-container">
+
+    <a class="item img" ng-repeat="post in main.items"
+       target="_blank"
+       ng-href="{{post.image}}"
+       ng-style="{'background-image': 'url(' + post.image + ')'}"
+       ng-if="
+         $index < (main.postsConfig.threeshold * main.postsConfig.currentPage) &&
+         $index >= (main.postsConfig.threeshold * (main.postsConfig.currentPage - 1))">
+      <div class="blur-box">{{post.title}}</div>
+    </a>
+  </div>
+  <div class="controls">
+    <button class="btn btn-default" ng-disabled="this.postsConfig.canUploadNew" ng-click="main.goToFirstPage()"><i
+      class="glyphicon glyphicon-backward"></i>
+    </button>
+    <button class="btn btn-default" ng-disabled="this.postsConfig.canUploadNew" ng-click="main.previousPage()"><i
+      class="glyphicon glyphicon-chevron-left"></i>
+    </button>
+    <button class="btn btn-default" ng-disabled="this.postsConfig.canUploadNew" ng-click="main.nextPage()"><i
+      class="glyphicon glyphicon-chevron-right"></i>
+    </button>
+    <button class="btn btn-default" ng-disabled="this.postsConfig.canUploadNew" ng-click="main.goToLastPage()"><i
+      class="glyphicon glyphicon-forward"></i></button>
+  </div>
+</div>
